@@ -9,7 +9,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
-import org.apache.tomcat.jni.Address;
+import lombok.extern.log4j.Log4j;
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -24,10 +25,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.accenture.springdata.entity.Address;
 import com.accenture.springdata.entity.User;
 import com.accenture.springdata.repo.UserJPARepo;
-
-import lombok.extern.log4j.Log4j;
 
 
 @RestController
@@ -41,6 +41,7 @@ public class UserController {
 	@Autowired
 	UserJPARepo userJpa;
 	
+	/** CRUD OPERATON **/
 	@RequestMapping(method=RequestMethod.POST)
 	public User saveUser(@RequestBody User reqObject){
 		log.info("user save method");
@@ -67,48 +68,7 @@ public class UserController {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	/** Query Method **/
 	
 	//http://localhost:8080/user/queryMethod?email=bharath@gmail.com
 	@RequestMapping(value="/queryMethod",method=RequestMethod.GET)
@@ -117,15 +77,15 @@ public class UserController {
 		return userJpa.findByEmailId(email);
 	}
 	
-	/*//http://localhost:8080/user/propertyExpressions?zipCode=1l
+	//http://localhost:8080/user/propertyExpressions?zipCode=1l
 	@RequestMapping(value="/propertyExpressions",method=RequestMethod.GET)
 	public List<User> propertyExpressions(@RequestParam("address") final Long address){
 		log.info("propertyExpressions {}"+address);
 		Address addressObj=new Address();
-		//addressObj.setAddressId(address);
+		addressObj.setAddressId(address);
 		return userJpa.findByAddress(addressObj);
 	}
-	*/
+	
 	
 	//http://localhost:8080/user/specialParameter?page=0&size=10&firstName=bharath
 	@RequestMapping(value="/specialParameter",method=RequestMethod.GET)
@@ -143,7 +103,7 @@ public class UserController {
 		return userJpa.findFirst5ByOrderByLastNameAsc();
 	}
 	
-	//http://localhost:8080/user/limitingQuery?zipCode=1l
+	//http://localhost:8080/user/streaming
 	@RequestMapping(value="/streaming",method=RequestMethod.GET)
 	@Transactional
 	public List<User> streaming(){
@@ -155,7 +115,7 @@ public class UserController {
 		return list;
 	}
 	
-	//http://localhost:8080/user/limitingQuery?zipCode=1l
+	//http://localhost:8080/user/asyncQuery?firstName=bharath
 	@RequestMapping(value="/asyncQuery",method=RequestMethod.GET)
 	public Future<User> asyncQuery( @RequestParam("firstName") final String firstName){
 		log.info("asyncQuery {}"+firstName);
@@ -164,7 +124,7 @@ public class UserController {
 	
 	
 	
-	
+	/** Custom Query **/
 	
 	
 	//http://localhost:8080/user/namedQuery?email=bharath@gmail.com
@@ -174,7 +134,7 @@ public class UserController {
 		return userJpa.findByNamedQuery(email);
 	}
 	
-	//http://localhost:8080/user/namedQuery?email=bharath@gmail.com
+	//http://localhost:8080/user/query?email=bharath@gmail.com
 	@RequestMapping(value="/query",method=RequestMethod.GET)
 	public List<User> QueryByEmailId(@RequestParam("email") final String email){
 		log.info("namedQueryByEmailId {}"+email);

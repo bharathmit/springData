@@ -71,33 +71,13 @@ public class User implements Serializable{
 	@Getter	@Setter	
 	private Gender gender;
 	
-
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/*@OneToOne(orphanRemoval=false, fetch = FetchType.EAGER)
-	@JoinColumn(name = "addressId")
+	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@JoinColumn(name="addressId")
 	@Getter	@Setter	
 	@JsonIgnore
-	private Address address;*/
+	private Address address;
 	
 	
 	

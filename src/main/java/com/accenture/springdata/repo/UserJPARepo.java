@@ -18,6 +18,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.concurrent.ListenableFuture;
 
+import com.accenture.springdata.entity.Address;
 import com.accenture.springdata.entity.User;
 
 
@@ -30,56 +31,15 @@ public interface UserJPARepo extends JpaRepository< User, Long>{
 	List<User> findByEmailId(String email);
 	
 	
-	List<User> findByFirstName(String firstName, Pageable pageable);
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	//Property expressions
-	//List<User> findByAddress(Address address);
+	List<User> findByAddress(Address address);
 	
 	
 	//Special parameter handling
 	
 	Slice<User> findByLastName(String lastname, Pageable pageable);
 	List<User> findByLastName(String lastname, Sort sort);
+	List<User> findByFirstName(String firstName, Pageable pageable);
 	
 	//Limiting query results
 	List<User> findFirst5ByOrderByLastNameAsc();
@@ -97,6 +57,25 @@ public interface UserJPARepo extends JpaRepository< User, Long>{
 	
 	@Async
 	ListenableFuture<User> findOneByLastName(String lastname);  
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
