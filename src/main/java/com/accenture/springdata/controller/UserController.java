@@ -77,13 +77,12 @@ public class UserController {
 		return userJpa.findByEmailId(email);
 	}
 	
-	//http://localhost:8080/user/propertyExpressions?zipCode=1l
+	//http://localhost:8080/user/propertyExpressions?Location=chennai
 	@RequestMapping(value="/propertyExpressions",method=RequestMethod.GET)
-	public List<User> propertyExpressions(@RequestParam("address") final Long address){
-		log.info("propertyExpressions {}"+address);
-		Address addressObj=new Address();
-		addressObj.setAddressId(address);
-		return userJpa.findByAddress(addressObj);
+	public List<User> propertyExpressions(@RequestParam("location") final String Location){
+		log.info("propertyExpressions {}"+Location);
+		
+		return userJpa.findByAddressLocation(Location);
 	}
 	
 	

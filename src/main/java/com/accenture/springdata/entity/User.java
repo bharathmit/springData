@@ -2,6 +2,7 @@ package com.accenture.springdata.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -73,12 +75,16 @@ public class User implements Serializable{
 	
 	
 	
-	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-	@JoinColumn(name="addressId")
+	@OneToOne(mappedBy="user", cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	@Getter	@Setter	
 	@JsonIgnore
 	private Address address;
 	
+	
+	
+	@OneToMany(mappedBy="user",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@Getter	@Setter	
+	private List<Role> roles;
 	
 	
 	

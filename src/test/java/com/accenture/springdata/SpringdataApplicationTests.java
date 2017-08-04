@@ -1,6 +1,7 @@
 package com.accenture.springdata;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.accenture.springdata.entity.Address;
 import com.accenture.springdata.entity.Gender;
+import com.accenture.springdata.entity.Role;
 import com.accenture.springdata.entity.User;
 import com.accenture.springdata.repo.AddressRepo;
 import com.accenture.springdata.repo.UserJPARepo;
@@ -31,17 +33,6 @@ public class SpringdataApplicationTests {
 		
 		User user=new User();
 		
-		/*1.cascade=CascadeType.ALL,fetch=FetchType.EAGER
-			    insert,find,delete ----> using FetchType
-		  2.ModelMappere Usecase when You use FetchType lazy loading   
-		  3.Add properties --spring.jpa.properties.hibernate.enable_lazy_load_no_trans=true
-
-		4.optional=true,orphanRemoval=true
-		    insert,find,delete ----> using both value
-		
-		5.left outer and inner outer join when you use optional*/
-		
-		
 		try{
 			SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 			Date date=df.parse("1988-02-14");
@@ -60,24 +51,42 @@ public class SpringdataApplicationTests {
 			address.setLocation("Chennai");
 			user.setAddress(address);
 			
-			//addressRepo.save(address);
+			
+			List<Role> roles=new ArrayList<Role>();
+			
+			Role role1=new Role(); 
+			role1.setRoleName("Admin");
+			role1.setUser(user);			
+			roles.add(role1);
+			
+			Role role2=new Role(); 
+			role2.setRoleName("Manager");
+			role2.setUser(user);
+			
+			roles.add(role2);
+			
+			user.setRoles(roles);
 			
 			userJPARepo.save(user);
 			
 			System.out.println("================Find By User Entity Call ==================");
-			User userObj=userJPARepo.findOne(user.getUserId());
+			userJPARepo.findOne(user.getUserId());
 			
-			/*System.out.println("Property expressions Call");
-			userJPARepo.findByAddress(address);*/
+			System.out.println("==============Property expressions Call");
 			
-			System.out.println("==============Junit User Data print Call ==================");
-			System.out.println("User Data" + userObj.toString());
+			userJPARepo.findByAddressLocation("Chennai");
+			
+			
+			
 			
 			System.out.println("===============Delete User Data print Call ==================");
-			userJPARepo.delete(user);
+			//userJPARepo.delete(user);
 			
 			
-			/*address.setUser(user);
+			/** Bio Direction Example **/ 
+			
+			/*
+			//address.setUser(user);
 			addressRepo.save(address);
 			
 			System.out.println("Find By Address Entity Call ==================");

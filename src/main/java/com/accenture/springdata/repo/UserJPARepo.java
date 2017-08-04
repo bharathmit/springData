@@ -32,7 +32,7 @@ public interface UserJPARepo extends JpaRepository< User, Long>{
 	
 	
 	//Property expressions
-	List<User> findByAddress(Address address);
+	List<User> findByAddressLocation(String location);
 	
 	
 	//Special parameter handling

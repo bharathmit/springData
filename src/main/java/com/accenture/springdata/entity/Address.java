@@ -38,10 +38,30 @@ public class Address implements Serializable{
 	@Getter	@Setter	
 	private String location;
 	
-	/*@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	@JoinColumn(name="userId")
 	@Getter	@Setter	
-	private User user;*/
+	private User user;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 }
