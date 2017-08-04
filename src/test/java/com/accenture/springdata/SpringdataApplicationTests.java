@@ -12,10 +12,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.accenture.springdata.entity.Address;
+import com.accenture.springdata.entity.Author;
+import com.accenture.springdata.entity.Book;
 import com.accenture.springdata.entity.Gender;
 import com.accenture.springdata.entity.Role;
 import com.accenture.springdata.entity.User;
 import com.accenture.springdata.repo.AddressRepo;
+import com.accenture.springdata.repo.AuthorRepo;
 import com.accenture.springdata.repo.UserJPARepo;
 
 @RunWith(SpringRunner.class)
@@ -27,6 +30,10 @@ public class SpringdataApplicationTests {
 	
 	@Autowired 
 	AddressRepo addressRepo;
+	
+	
+	@Autowired
+	AuthorRepo authorRepo;
 	
 	@Test
 	public void insertTest() {
@@ -103,6 +110,38 @@ public class SpringdataApplicationTests {
 		catch(Exception e){
 			e.printStackTrace();
 		}		
+	}
+	
+	
+	
+	
+	@Test
+	public void manyToManyTest(){
+		
+		Author author=new Author();
+		List<Author> authorList=new ArrayList<Author>();
+		
+		author.setAuthorName("Bharath");
+		
+		authorList.add(author);
+		
+		List<Book> booklist=new ArrayList<Book>();
+		Book book1=new Book();
+		book1.setBookName("Spring");		
+		book1.setAuthors(authorList);
+		
+		booklist.add(book1);
+		
+		Book book2=new Book();
+		book2.setBookName("Hibernate");
+		book1.setAuthors(authorList);
+		booklist.add(book2);
+		
+		
+		author.setBooks(booklist);
+		
+		authorRepo.save(author);
+		
 	}
 	
 	
