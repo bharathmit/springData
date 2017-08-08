@@ -13,10 +13,16 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PostLoad;
+import javax.persistence.PostPersist;
+import javax.persistence.PostRemove;
+import javax.persistence.PostUpdate;
+import javax.persistence.PrePersist;
+import javax.persistence.PreRemove;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -97,6 +103,39 @@ public class User implements Serializable{
 	@Transient 
 	@Getter	@Setter	
 	private int recordePerPage;
+	
+	
+	
+	/*@PrePersist
+	public void prePersist() {
+		System.out.println("before a new entity is persisted (added to the EntityManager)");
+	}
+	
+	@PostPersist
+	public void postPersist() {
+		System.out.println("after storing a new entity in the database (during commit or flush)");
+	}
+	@PostLoad
+	public void postLoad() {
+		System.out.println("after an entity has been retrieved from the database");
+	}
+	@PreUpdate
+	public void PreUpdate() {
+		System.out.println("when an entity is identified as modified by the EntityManager");
+	}
+	@PostUpdate
+	public void PostUpdate() {
+		System.out.println("after updating an entity in the database (during commit or flush)");
+	}
+	@PreRemove
+	public void PreRemove() {
+		System.out.println("when an entity is marked for removal in the EntityManager");
+	}
+	@PostRemove
+	public void PostRemove() {
+		System.out.println("after deleting an entity from the database (during commit or flush)");
+	}*/
+
 	
 	
 	

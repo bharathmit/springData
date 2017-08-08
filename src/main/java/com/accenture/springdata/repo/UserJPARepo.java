@@ -86,6 +86,10 @@ public interface UserJPARepo extends JpaRepository< User, Long>{
 	@Query(value = "select u from User u where u.emailId = ?1")
 	List<User> findByQuery(String email);
 	
+	//Named parameters
+	@Query(value = "select u from User u where u.emailId = :email")
+	List<User> parameterQuery(@Param("email") String email);
+	
 	//nativeQuery
 	@Query(value = "select * from User u where u.email_Id = ?1", nativeQuery = true)
 	List<User> nativeQueryByEmail(String email);
@@ -94,6 +98,9 @@ public interface UserJPARepo extends JpaRepository< User, Long>{
 	@Modifying(clearAutomatically = true)
 	@Query("update User u set u.emailId = :emailId")
 	int updateEMail(@Param("emailId") String emailId);
+	
+	//Projections
+	NoAddresses findByLastName(String lastName);
 
 	 
 }

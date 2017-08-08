@@ -5,11 +5,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+
+import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.StringUtils;
 
 import com.accenture.springdata.entity.Address;
 import com.accenture.springdata.entity.Author;
@@ -19,6 +28,7 @@ import com.accenture.springdata.entity.Role;
 import com.accenture.springdata.entity.User;
 import com.accenture.springdata.repo.AddressRepo;
 import com.accenture.springdata.repo.AuthorRepo;
+import com.accenture.springdata.repo.NoAddresses;
 import com.accenture.springdata.repo.UserJPARepo;
 
 @RunWith(SpringRunner.class)
@@ -34,6 +44,10 @@ public class SpringdataApplicationTests {
 	
 	@Autowired
 	AuthorRepo authorRepo;
+	
+	
+	@PersistenceContext
+	EntityManager entityManager;
 	
 	@Test
 	public void insertTest() {
@@ -56,6 +70,7 @@ public class SpringdataApplicationTests {
 			
 			address.setDoorNumber("no 4/5");
 			address.setLocation("Chennai");
+			address.setUser(user);
 			user.setAddress(address);
 			
 			
@@ -120,12 +135,13 @@ public class SpringdataApplicationTests {
 		
 		Author author=new Author();
 		List<Author> authorList=new ArrayList<Author>();
+		List<Book> booklist=new ArrayList<Book>();
 		
 		author.setAuthorName("Bharath");
 		
 		authorList.add(author);
 		
-		List<Book> booklist=new ArrayList<Book>();
+		
 		Book book1=new Book();
 		book1.setBookName("Spring");		
 		book1.setAuthors(authorList);
@@ -148,16 +164,67 @@ public class SpringdataApplicationTests {
 	@Test
 	public void queryMethod(){
 		
-		//queryMethod
-		List<User> userList=userJPARepo.findByEmailId("bharath@gmail.com");
+		/*System.out.println("JPA Query Method Call ====================");
+		userJPARepo.findByEmailId("bharath@gmail.com");
 		
-		for(User user: userList){
-			System.out.println("User DTO : "+user.toString());
-		}
+		System.out.println("NamedQuery Call ====================");
+		userJPARepo.findByNamedQuery("bharath@gmail.com");
 		
+		System.out.println("NativeQuery Call ====================");
+		userJPARepo.nativeQueryByEmail("bharath@gmail.com");
+		
+		System.out.println("HQL Call ====================");
+		userJPARepo.findByQuery("bharath@gmail.com");
+		
+		System.out.println("Named Parameter Call ====================");
+		userJPARepo.parameterQuery("bharath@gmail.com");
+		
+		System.out.println("Modifying Query Call ====================");
+		userJPARepo.updateEMail("simbu@gmail.com");*/
+		
+		
+		System.out.println("Projections Query Call ====================");
+		NoAddresses address=userJPARepo.findByLastName("simbu");		
+		System.out.println(address.getFirstName());
+		System.out.println(address.getLastName());
+		System.out.println(address.getFullName());
 	
 	}
 	
+	
+	@Test
+	@Transactional
+	public void criteriaTest(){
+		User reqObject=new User();
+		reqObject.setEmailId("simbu@gmail.com");
+		
+		Session session = entityManager.unwrap(Session.class);
+        Criteria criteria = session.createCriteria(User.class);        
+        
+        if(!StringUtils.isEmpty(reqObject.getEmailId())){
+    		criteria.add(Restrictions.eq("emailId", reqObject.getEmailId()));
+    	}
+        
+        List<User> list = criteria.list();
+    	
+    	
+		
+	}
+	
+	
+	
+	@Test
+	@Transactional
+	public void hqlTest(){
+		
+		//Select
+		Session session = entityManager.unwrap(Session.class);
+		Query query=session.createQuery("FROM User u");
+		List results = query.list();
+    			
+		//Update & delete using query.executeUpdate().
+		
+	}
 	
 	
 	
